@@ -31,7 +31,6 @@ class TestIsBalanced(unittest.TestCase):
         data = [
             Data('', True),
             Data('XYZ', False),
-
             Data('(', False),
             Data('((', False),
             Data('(((', False),
@@ -47,7 +46,6 @@ class TestIsBalanced(unittest.TestCase):
             Data('())', False),
             Data('())(', False),
             Data('()))', False),
-
             Data(')', False),
             Data(')(', False),
             Data(')((', False),

@@ -19,7 +19,6 @@ class TestExample(unittest.TestCase):
         data = [
             Data(None, False),
             Data('', False),
-
             Data('0', True),
             Data('1', True),
             Data('False', True),
