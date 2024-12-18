@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import dataclasses
+import glob
+import io
 import unittest
 
 import reverse
@@ -9,47 +11,30 @@ import reverse
 class TestReverseText(unittest.TestCase):
 
     def test_reverse_text(self):
-        @dataclasses.dataclass
-        class Data:
-            arg: str
-            result: bool
-
-        data = [
-            Data(None, False),
-            Data('', False),
-            Data('0', True),
-            Data('1', True),
-            Data('False', True),
-            Data('True', True),
-            Data('Any non-empty string', True),
-        ]
-
-        for d in data:
-            with self.subTest(**dataclasses.asdict(d)):
-                self.assertEqual(reverse.reverse_text(d.arg), d.result)
+        for name in glob.glob('test_data/*'):
+            if not name.endswith('.reversed'):
+                with (
+                    open(name, 'r', encoding='utf-8') as file,
+                    open(f'{name}.reversed', 'r', encoding='utf-8') as r,
+                    self.subTest(name=name),
+                ):
+                    result = r.read()
+                    self.assertEqual(''.join(reverse._reverse_text(file)), result)
 
 
 class TestReverseFile(unittest.TestCase):
 
     def test_reverse_file(self):
-        @dataclasses.dataclass
-        class Data:
-            arg: str
-            result: bool
-
-        data = [
-            Data(None, False),
-            Data('', False),
-            Data('0', True),
-            Data('1', True),
-            Data('False', True),
-            Data('True', True),
-            Data('Any non-empty string', True),
-        ]
-
-        for d in data:
-            with self.subTest(**dataclasses.asdict(d)):
-                self.assertEqual(reverse.reverse_file(d.arg), d.result)
+        for name in glob.glob('test_data/*'):
+            for size in [10, 25, 50, 100, 1024, 1024 * 1024]:
+                if not name.endswith('.reversed'):
+                    with (
+                        open(name, 'rb') as file,
+                        open(f'{name}.reversed', 'r', encoding='utf-8') as r,
+                        self.subTest(name=name, size=size),
+                    ):
+                        result = r.read()
+                        self.assertEqual(''.join(reverse._reverse_file(file, size)), result)
 
 
 if __name__ == '__main__':

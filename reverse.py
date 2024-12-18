@@ -7,23 +7,25 @@ import os
 
 def smallfile(name: str):
     with open(name, 'r', encoding='utf-8') as file:
-        reverse_text(file)
+        print(''.join(_reverse_text(file)), end='')
 
 
 def largefile(name: str, size: int):
     with open(name, 'rb') as file:
-        if not file.seekable():
-            exit(f'{name} is not seekable - please specify a regular file')
-
-        reverse_file(file, size)
+        for block in _reverse_file(file, size):
+            print(block, end='')
 
 
-def reverse_text(file: io.TextIOBase):
-    print(''.join(reversed(file.readlines())), end='')
+def _reverse_text(file: io.TextIOBase):
+    return reversed(file.readlines())
 
 
-def reverse_file(file: io.BufferedIOBase, size: int):
-    print(file.read().decode())
+def _reverse_file(file: io.BufferedIOBase, size: int):
+    if not file.seekable():
+        exit(f'{name} is not seekable - please specify a regular file')
+
+    while block := file.read(size).decode():
+        yield block
 
 
 if __name__ == '__main__':
