@@ -3,8 +3,13 @@
 import argparse
 import http.server
 import json
-import sys
 import urllib.parse
+
+from typing import List, MutableMapping
+
+type Query = MutableMapping[str, List[str]]
+type Links = MutableMapping[str, str]
+
 
 _links = {
     'google': 'https://google.com',
@@ -15,7 +20,7 @@ _links = {
 
 class Handler(http.server.BaseHTTPRequestHandler):
 
-    def _GET_command(self, cmd: str, query: dict, links: dict):
+    def _GET_command(self, cmd: str, query: Query, links: Links):
         match cmd:
             case 'list':
                 self.send_response(200)
@@ -47,7 +52,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
             case _:
                 self.send_error(404, explain=f'No command defined for "{cmd}"')
 
-    def _GET_redirect(self, name: str, text: str, links: dict):
+    def _GET_redirect(self, name: str, text: str, links: Links):
         if name not in links:
             self.send_error(404, explain=f'No target defined for "{name}"')
             return
@@ -59,7 +64,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.send_header('Location', target)
         self.end_headers()
 
-    def _POST_command(self, cmd: str, query: dict, links: dict):
+    def _POST_command(self, cmd: str, query: Query, links: Links):
         match cmd:
             case 'create':
                 if 'name' not in query:

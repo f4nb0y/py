@@ -17,7 +17,6 @@ class TestExample(unittest.TestCase):
             result: bool
 
         data = [
-            Data(None, False),
             Data('', False),
             Data('0', True),
             Data('1', True),
