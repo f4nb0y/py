@@ -154,7 +154,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 #
                 url = urllib.parse.urlsplit(text)
                 self._GET_command(
-                    cmd=url.path, query=urllib.parse.parse_qs(url.query), links=_links
+                    cmd=url.path,
+                    query=urllib.parse.parse_qs(url.query),
+                    links=_links,
                 )
 
             case _:
@@ -170,7 +172,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 #   Target: https://docs.python.org/3/library
                 #   Redirection: https://docs.python.org/3/library/stdtypes.html#str.split
                 #
-                self._GET_redirect(name=name, text=text, links=_links)
+                self._GET_redirect(
+                    name=name,
+                    text=text,
+                    links=_links,
+                )
 
     def do_POST(self):
         chunks = self.path.split('/', maxsplit=2)
@@ -192,7 +198,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 #
                 url = urllib.parse.urlsplit(text)
                 self._POST_command(
-                    cmd=url.path, query=urllib.parse.parse_qs(url.query), links=_links
+                    cmd=url.path,
+                    query=urllib.parse.parse_qs(url.query),
+                    links=_links,
                 )
 
             case _:
@@ -206,7 +214,8 @@ def run(port: int):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        prog='PyShort', description='Python implementation of a shortlink server'
+        prog='PyShort',
+        description='Python implementation of a shortlink server',
     )
     parser.add_argument('-p', '--port', default=8888, type=int)
     args = parser.parse_args()
