@@ -14,7 +14,7 @@ class TestExample(unittest.TestCase):
     def test_example(self):
         @dataclasses.dataclass
         class Data:
-            arg: str
+            arg: Any
             result: bool
 
         data = [
