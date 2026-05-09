@@ -25,7 +25,7 @@ class TestExample(unittest.TestCase):
             Data('1', True),
             Data('False', True),
             Data('True', True),
-            Data('Any non-empty string', True),
+            Data('Any string', True),
             Data([], False),
             Data([False], True),
             Data({}, False),

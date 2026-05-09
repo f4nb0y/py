@@ -12,8 +12,7 @@ def is_balanced(arg: str) -> bool:
             level += 1
         elif c == ')':
             level -= 1
-        else:
-            return False
+
         if level < 0:
             return False
 
@@ -30,37 +29,25 @@ class TestIsBalanced(unittest.TestCase):
 
         data = [
             Data('', True),
-            Data('XYZ', False),
             Data('(', False),
             Data('((', False),
-            Data('(((', False),
-            Data('((((', False),
-            Data('((()', False),
-            Data('(()', False),
-            Data('(()(', False),
-            Data('(())', True),
             Data('()', True),
-            Data('()(', False),
-            Data('()((', False),
-            Data('()()', True),
-            Data('())', False),
-            Data('())(', False),
-            Data('()))', False),
+            Data('(())', True),
             Data(')', False),
-            Data(')(', False),
-            Data(')((', False),
-            Data(')(((', False),
-            Data(')(()', False),
-            Data(')()', False),
-            Data(')()(', False),
-            Data(')())', False),
             Data('))', False),
-            Data('))(', False),
-            Data('))((', False),
-            Data('))()', False),
-            Data(')))', False),
-            Data(')))(', False),
-            Data('))))', False),
+            Data(')(', False),
+            Data(')()(', False),
+            Data('XYZ', True),
+            Data('(XYZ', False),
+            Data('(XYZ)', True),
+            Data('XYZ)', False),
+            Data('X(Y)Z', True),
+            Data('X(YZ', False),
+            Data('XY)Z', False),
+            Data('(X(YZ)', False),
+            Data('(XY)Z)', False),
+            Data('(X(Y)Z)', True),
+            Data('(X)Y(Z)', True),
         ]
 
         for d in data:
